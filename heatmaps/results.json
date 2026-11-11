@@ -1,0 +1,49 @@
+{
+  "checkpoint": "models/best_model.pth",
+  "dataset": "APTOS 2019 Blindness Detection",
+  "source": "https://www.kaggle.com/competitions/aptos2019-blindness-detection/data",
+  "classes": [
+    "Diseased",
+    "Healthy"
+  ],
+  "labels_file": "train.csv",
+  "selection": "First misclassification and first correct case with the same reference class in shuffled order",
+  "split": "Reconstructed with Member 4's defaults. Original split membership is unverified.",
+  "split_seed": 42,
+  "validation_fraction": 0.2,
+  "candidate_images": 732,
+  "images_scanned": 21,
+  "seed": 42,
+  "samples": [
+    {
+      "image": "80c67efc8101.png",
+      "reference": "Healthy",
+      "outcome": "correct",
+      "predicted": "Healthy",
+      "score_percent": 92.54144430160522,
+      "target_layer": "layer4[-1]",
+      "feature_grid": [
+        7,
+        7
+      ],
+      "has_positive_activation": true,
+      "aptos_grade": 0,
+      "figure": "correct-heatmap.png"
+    },
+    {
+      "image": "291f581d365e.png",
+      "reference": "Healthy",
+      "outcome": "incorrect",
+      "predicted": "Diseased",
+      "score_percent": 85.53128242492676,
+      "target_layer": "layer4[-1]",
+      "feature_grid": [
+        7,
+        7
+      ],
+      "has_positive_activation": true,
+      "aptos_grade": 0,
+      "figure": "incorrect-heatmap.png"
+    }
+  ]
+}
