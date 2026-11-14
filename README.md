@@ -1,28 +1,26 @@
-# retinal-classifier-gradcam
+# DrishtiAI — Explainable AI for Diabetic Retinopathy Screening in Rural India
+Research prototype (Streamlit, pure Python). AI-assisted screening only — **not a medical diagnosis**.
 
-This project uses a trained ResNet-50 checkpoint to classify retinal photos as Healthy or Diseased. Grad-CAM produces a heatmap and an overlay showing which regions supported the predicted class.
+## Run locally
+    pip install -r requirements.txt
+    streamlit run app.py
+Login: any mobile number, OTP `123456` (prototype), or click **Professor / Demo Mode**.
 
-## Run the integration
+## Live link (free): Streamlit Community Cloud
+1. Push this folder to a GitHub repo (model/best_model.pth is ~90 MB, under GitHub's 100 MB limit).
+2. https://share.streamlit.io → New app → pick repo, branch, main file `app.py` → Deploy.
+3. You get a public `https://<name>.streamlit.app` URL.
 
-From the repository root, install the dependencies and run the two commands on a retinal photo. The scripts use the included `models/best_model.pth` checkpoint by default.
+## Connect / replace the model
+Everything goes through `core/model_api.py → analyze(image)`. It loads `model/best_model.pth`
+via your `predict.py` + `grad_cam.py`. Your model is **binary (Healthy/Diseased, APTOS 2019)**, so the UI
+shows two outcomes, not 5 DR grades. For a 5-grade model, retrain and extend the label mapping in app.py.
+If torch is missing, the app shows a clearly labelled MOCK output.
 
-```powershell
-python -m pip install -r requirements.txt
-python predict.py "path\to\photo.png"
-python grad_cam.py --image "path\to\photo.png" --label Healthy --output integration-test
-```
+## Structure
+app.py (UI/pages) · core/{i18n,quality,model_api,report}.py · locales/*.json (8 languages) · model/ (your model)
 
-Use the photo’s reference class for `--label`, or omit the flag when its label is unknown. Check that the prediction and score agree with `predict.py` and that the overlay aligns with the original photo. The output folder contains a three-panel PNG and `results.json`.
-
-To generate examples from labeled photos, put them in `labeled_photos/Healthy/` and `labeled_photos/Diseased/`, then run `python grad_cam.py --dataset labeled_photos`. For APTOS 2019, map grade 0 in `train.csv` to Healthy and grades 1–4 to Diseased. [APTOS 2019 data](https://www.kaggle.com/competitions/aptos2019-blindness-detection/data)
-
-## Assignment results
-
-| Reference class | Predicted class | Model score | Outcome |
-| --- | --- | ---: | --- |
-| Healthy | Healthy | 92.5% | Correct |
-| Healthy | Diseased | 85.5% | Misclassification |
-
-The correct prediction had its strongest highlight below and to the right of centre. The misclassification had its strongest highlight in a horizontal band just right of centre. Both photos were selected from a candidate split reconstructed with the training script’s defaults. The original split membership is unverified, so these cases illustrate individual predictions.
-
-Grad-CAM uses a coarse feature grid and scales each heatmap independently. The colours show relative support for the predicted class within one photo. Identifying a lesion requires separate evidence. [Grad-CAM paper](https://doi.org/10.1109/ICCV.2017.74)
+## Honest status
+Real: image-quality scoring, your model + Grad-CAM, PDF report, 8-language UI shell, roles, Rural Care Mode.
+Mock / pending: OTP & auth, database/persistence, patients & analytics data, facilities, sharing, offline sync.
+Validation page is intentionally empty until real results exist.

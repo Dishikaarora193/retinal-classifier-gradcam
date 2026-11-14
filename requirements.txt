@@ -1,14 +1,8 @@
-# Retinal image classifier — Python dependencies
-# Python 3.10+ recommended.
-#
-# GPU users: install the CUDA build of PyTorch FIRST, using the command for
-# your CUDA version from https://pytorch.org/get-started/locally/
-#   e.g.  pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
-# then:  pip install -r requirements.txt
-#
-# CPU / Apple Silicon (MPS) users can simply run:  pip install -r requirements.txt
-
-torch>=2.3
-torchvision>=0.18
+--extra-index-url https://download.pytorch.org/whl/cpu
+streamlit>=1.40
+plotly>=5.20
 numpy>=1.24
 pillow>=10.1
+reportlab>=4.0
+torch>=2.3
+torchvision>=0.18
